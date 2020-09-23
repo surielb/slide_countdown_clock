@@ -134,7 +134,7 @@ class _DigitState extends State<Digit> with SingleTickerProviderStateMixin {
         builder: (context, w) {
           return Stack(
             fit: StackFit.passthrough,
-            overflow: Overflow.clip,
+            clipBehavior: Clip.antiAlias,
             children: <Widget>[
               haveData
                   ? FractionalTranslation(
