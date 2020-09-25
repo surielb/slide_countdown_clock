@@ -46,11 +46,12 @@ class _DigitState extends State<Digit> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
     _slideDownAnimation = _controller.drive(_slideDownDetails);
     _slideDownAnimation2 = _controller.drive(_slideDownDetails2);
 
-   /* _controller.addStatusListener((status) {
+    _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _controller.reset();
       }
@@ -59,40 +60,6 @@ class _DigitState extends State<Digit> with SingleTickerProviderStateMixin {
         _currentValue = _nextValue;
       }
     });
-
-    _currentValue = widget.initValue;
-    _streamSubscription = widget.itemStream.distinct().listen((value) {
-      haveData = true;
-      if (_currentValue == null) {
-        _currentValue = value;
-      } else if (value != _currentValue) {
-        _nextValue = value;
-        _controller.forward();
-      }
-    });*/
-  }
-
-  void animationListener(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      _controller.reset();
-    }
-
-    if (status == AnimationStatus.dismissed) {
-      _currentValue = _nextValue;
-    }
-  }
-
-  @override
-  void didUpdateWidget(Digit oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    try {
-      _controller.removeStatusListener(animationListener);
-      _streamSubscription.cancel();
-    } catch (ex) {
-
-    }
-
-    _controller.addStatusListener(animationListener);
 
     _currentValue = widget.initValue;
     _streamSubscription = widget.itemStream.distinct().listen((value) {
@@ -138,7 +105,10 @@ class _DigitState extends State<Digit> with SingleTickerProviderStateMixin {
             children: <Widget>[
               haveData
                   ? FractionalTranslation(
-                      translation: (widget.slideDirection == SlideDirection.Down) ? _slideDownAnimation.value : -_slideDownAnimation.value,
+                      translation:
+                          (widget.slideDirection == SlideDirection.Down)
+                              ? _slideDownAnimation.value
+                              : -_slideDownAnimation.value,
                       child: ClipRect(
                         clipper: ClipHalfRect(
                           percentage: _slideDownAnimation.value.dy,
@@ -155,7 +125,9 @@ class _DigitState extends State<Digit> with SingleTickerProviderStateMixin {
                     )
                   : SizedBox(),
               FractionalTranslation(
-                translation: (widget.slideDirection == SlideDirection.Down) ? _slideDownAnimation2.value : -_slideDownAnimation2.value,
+                translation: (widget.slideDirection == SlideDirection.Down)
+                    ? _slideDownAnimation2.value
+                    : -_slideDownAnimation2.value,
                 child: ClipRect(
                   clipper: ClipHalfRect(
                     percentage: _slideDownAnimation2.value.dy,
