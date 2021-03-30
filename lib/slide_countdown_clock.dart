@@ -21,6 +21,8 @@ class SlideCountdownClock extends StatefulWidget {
   final EdgeInsets padding;
   final bool tightLabel;
   final bool shouldShowDays;
+  final Duration tick;
+  final bool countUp;
 
   SlideCountdownClock({
     Key key,
@@ -35,6 +37,8 @@ class SlideCountdownClock extends StatefulWidget {
     this.separator: "",
     this.slideDirection: SlideDirection.Down,
     this.onDone,
+    this.tick = const Duration(seconds:1),
+    this.countUp = false,
     this.shouldShowDays: false,
     this.padding: EdgeInsets.zero,
   }) : super(key: key);
@@ -67,8 +71,11 @@ class SlideCountdownClockState extends State<SlideCountdownClock> {
   void _init() {
     var time = DateTime.now();
     final initStream =
-        Stream<DateTime>.periodic(Duration(milliseconds: 1000), (_) {
-      timeLeft -= Duration(seconds: 1);
+        Stream<DateTime>.periodic(tick, (_) {
+          if(countUp)
+      timeLeft += tick;
+            else
+      timeLeft -= tick;
       if (timeLeft.inSeconds == 0) {
         Future.delayed(Duration(milliseconds: 1000), () {
           if (widget.onDone != null) widget.onDone();
