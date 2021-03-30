@@ -71,11 +71,11 @@ class SlideCountdownClockState extends State<SlideCountdownClock> {
   void _init() {
     var time = DateTime.now();
     final initStream =
-        Stream<DateTime>.periodic(tick, (_) {
-          if(countUp)
-      timeLeft += tick;
+        Stream<DateTime>.periodic(widget.tick, (_) {
+          if(widget.countUp)
+      timeLeft += widget.tick;
             else
-      timeLeft -= tick;
+      timeLeft -= widget.tick;
       if (timeLeft.inSeconds == 0) {
         Future.delayed(Duration(milliseconds: 1000), () {
           if (widget.onDone != null) widget.onDone();
