@@ -45,31 +45,26 @@ class SlideCountdownClock extends StatefulWidget {
 
   @override
   SlideCountdownClockState createState() =>
-      SlideCountdownClockState(duration, shouldShowDays);
+      SlideCountdownClockState;
 }
 
 class SlideCountdownClockState extends State<SlideCountdownClock> {
-  SlideCountdownClockState(Duration duration, bool shouldShowDays) {
-    timeLeft = duration;
-    this.shouldShowDays = shouldShowDays;
 
-    if (timeLeft.inHours > 99) {
-      this.shouldShowDays = true;
-    }
-  }
 
-  bool shouldShowDays;
+  bool get shouldShowDays=>widget.shouldShowDays;
   Duration timeLeft;
   Stream<DateTime> timeStream;
 
   @override
   void initState() {
     super.initState();
+    timeLeft = widget.duration;
     _init();
   }
 
   void _init() {
     var time = DateTime.now();
+
     final initStream =
         Stream<DateTime>.periodic(widget.tick, (_) {
           if(widget.countUp)
@@ -83,9 +78,16 @@ class SlideCountdownClockState extends State<SlideCountdownClock> {
       }
       return time;
     });
+
     timeStream = initStream.take(timeLeft.inSeconds).asBroadcastStream();
   }
 
+  void didUpdateWidget(covariant SlideCountdownClock oldWidget) {
+
+  timeLeft = widget.duration;
+
+    super.didUpdateWidget(oldWidget);
+  }
   @override
   Widget build(BuildContext context) {
     Widget dayDigits;
