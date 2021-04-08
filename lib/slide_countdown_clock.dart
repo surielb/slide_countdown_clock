@@ -45,7 +45,7 @@ class SlideCountdownClock extends StatefulWidget {
 
   @override
   SlideCountdownClockState createState() =>
-      SlideCountdownClockState;
+      SlideCountdownClockState();
 }
 
 class SlideCountdownClockState extends State<SlideCountdownClock> {
